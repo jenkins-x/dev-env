@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [[ ! -d ~/Development/workspace ]]
+then
+  mkdir -p ~/Development/workspace
+fi
+
+if [[ ! -d ~/.dev-env ]]
+then
+  mkdir -p ~/.dev-env
+fi
+
+docker run --name dev-env \
+           --rm \
+           --tty \
+           --interactive \
+           --publish 8080:8080 \
+           --publish 8443:8443 \
+           --volume ~/.dev-env:/home/developer:rw \
+           --volume ~/.ssh:/home/developer/.ssh:ro \
+           --volume ~/Development/workspace:/go/src:rw \
+           --volume /var/run/docker.sock:/var/run/docker.sock \
+           cagiti/dev-env:latest /bin/bash
