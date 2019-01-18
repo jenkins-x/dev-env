@@ -5,6 +5,7 @@ ARG group=developer
 ARG home=/home/${user}
 ARG uid=1000
 ARG gid=1000
+ENV HELM_VERSION 2.12.2
 ENV HUB_VERSION 2.7.0
 ENV KUBCTL_VERSION v1.6.4
 ENV JX_VERSION v1.3.731
@@ -60,7 +61,10 @@ RUN mkdir -p ${home} \
     && chmod +x /usr/local/bin/kubectl \
     # Install jx
     && curl -sL https://github.com/jenkins-x/jx/releases/download/${JX_VERSION}/jx-linux-amd64.tar.gz | tar xz -C /usr/local/bin \
-    && curl -sL https://github.com/github/hub/releases/download/v${HUB_VERSION}/hub-linux-amd64-${HUB_VERSION}.tgz | tar zx --strip 2 -C /usr/local/bin hub-linux-amd64-2.7.0/bin/hub \
+    # Install hub-cli
+    && curl -sL https://github.com/github/hub/releases/download/v${HUB_VERSION}/hub-linux-amd64-${HUB_VERSION}.tgz | tar zx --strip 2 -C /usr/local/bin hub-linux-amd64-${HUB_VERSION}/bin/hub \
+    # Install Helm
+    && curl -sL https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz | tar xz --strip 1 -C /usr/local/bin linux-amd64/tiller linux-amd64/helm \
     # Setup Docker hack - there must be a better way
     && usermod -a -G docker ${user} \
     && usermod -a -G root ${user} \
