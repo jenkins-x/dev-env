@@ -38,6 +38,7 @@ RUN mkdir -p ${home} \
        curl \
        openjdk8 \
        git \
+       tig \
        bash \
        tmux \
        make \
