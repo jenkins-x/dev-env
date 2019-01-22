@@ -18,6 +18,6 @@ docker run --name dev-env \
            --publish 8443:8443 \
            --volume ~/.dev-env:/home/developer:rw \
            --volume ~/.ssh:/home/developer/.ssh:ro \
-           --volume ~/Development/workspace:/go/src:rw \
+           --volume ~/Development/go:/go:rw \
            --volume /var/run/docker.sock:/var/run/docker.sock \
            cagiti/dev-env:latest /bin/bash
