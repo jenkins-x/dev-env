@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [[ ! -d ~/Development/workspace ]]
+if [[ ! -d ~/Development/go ]]
 then
-  mkdir -p ~/Development/workspace
+  mkdir -p ~/Development/go
 fi
 
 if [[ ! -d ~/.dev-env ]]
@@ -10,14 +10,17 @@ then
   mkdir -p ~/.dev-env
 fi
 
+cp ./env/.vimrc ~/.dev-env/.vimrc
+
 docker run --name dev-env \
            --rm \
            --tty \
            --interactive \
            --publish 8080:8080 \
            --publish 8443:8443 \
-           --volume ~/.dev-env:/home/developer:rw \
-           --volume ~/.ssh:/home/developer/.ssh:ro \
+           --volume /home/developer/.vim \
            --volume ~/Development/go:/go:rw \
+           --volume ~/.dev-env:/home/developer \
+           --volume ~/.ssh:/home/developer/.ssh:ro \
            --volume /var/run/docker.sock:/var/run/docker.sock \
            cagiti/dev-env:latest /bin/bash

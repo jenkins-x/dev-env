@@ -11,6 +11,7 @@ ENV KUBCTL_VERSION v1.6.4
 ENV JX_VERSION v1.3.731
 ENV CLOUD_SDK_VERSION 229.0.0
 ENV PATH /google-cloud-sdk/bin:$PATH
+ADD ./env/.vim/colors/molokai_dark.vim /tmp/colors/molokai_dark.vim
 WORKDIR /
 
 # Add developer user
@@ -69,7 +70,16 @@ RUN mkdir -p ${home} \
     # Setup Docker hack - there must be a better way
     && usermod -a -G docker ${user} \
     && usermod -a -G root ${user} \
-    && rm /usr/bin/vi && ln -s /usr/bin/vim /usr/bin/vi
+    # Configure vi environment
+    && mkdir -p /home/${user}/.vim/pack/plugins/start \
+    && rm /usr/bin/vi && ln -s /usr/bin/vim /usr/bin/vi \
+    && go get golang.org/x/tools/cmd/gorename \
+    && go get github.com/nsf/gocode \
+    && $GOPATH/bin/gocode set propose-builtins true \
+    && git clone https://github.com/fatih/vim-go.git /home/${user}/.vim/pack/plugins/start/vim-go \
+    && git clone https://github.com/manniwood/vim-buf.git /home/${user}/.vim/pack/plugins/start/vim-buf \
+    && mv /tmp/colors /home/${user}/.vim \
+    && chown -R ${user}:${group} /home/${user}
 
 # Setup Environment
 USER ${user}
