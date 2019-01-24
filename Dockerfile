@@ -83,6 +83,6 @@ RUN mkdir -p ${home} \
 
 # Setup Environment
 USER ${user}
-ENV PS1='$(echo -e "'"\U1F645"'") \[\033[32m\]\u \[\033[33m\]\w($(git branch 2>/dev/null | sed -n "s/* \(.*\)/\1/p"))\[\033[00m\]$ '
+ENV PS1='$(echo -e "'"\U1F645"'") \[\033[32m\]\u \[\033[33m\]\w($(git branch 2>/dev/null | sed -n "s/* \(.*\)/\1/p")[$(if [[ $(git diff --exit-code >/dev/null 2>/dev/null;echo $?) -eq 1 ]]; then echo -e "'"\U1F44E"'"; elif [[ $(git diff --exit-code >/dev/null 2>/dev/null;echo $?) -eq 0 ]]; then echo -e "'"\U1F44D"'"; else echo -e "'"\U1F44C"'"; fi)])\[\033[00m\]$ '
 ENV PATH /google-cloud-sdk/bin:$PATH
 WORKDIR /go/src
