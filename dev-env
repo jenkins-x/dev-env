@@ -2,27 +2,40 @@
 
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
 
-if [[ ! -d ~/Development/go ]]
-then
-  mkdir -p ~/Development/go
-fi
+function setup_go_workspace(){
+  if [[ ! -d ~/Development/go ]]
+  then
+    mkdir -p ~/Development/go
+  fi
+}
 
-if [[ ! -d ~/.dev-env ]]
-then
-  mkdir -p ~/.dev-env
-fi
+function setup_devenv_mount(){
+  if [[ ! -d ~/.dev-env ]]
+  then
+    mkdir -p ~/.dev-env
+  fi
+}
 
-cp -r "${SCRIPT_HOME}/env/" ~/.dev-env/
+function setup_environment(){
+  cp -r "${SCRIPT_HOME}/env/" ~/.dev-env/
+}
 
-docker run --name dev-env \
-           --rm \
-           --tty \
-           --interactive \
-           --publish 8080:8080 \
-           --publish 8443:8443 \
-           --volume /home/developer/.vim \
-           --volume ~/Development/go:/go:rw \
-           --volume ~/.dev-env:/home/developer \
-           --volume ~/.ssh:/home/developer/.ssh:ro \
-           --volume /var/run/docker.sock:/var/run/docker.sock \
-           cagiti/dev-env:latest /bin/bash
+function run(){
+  docker run --name dev-env \
+             --rm \
+             --tty \
+             --interactive \
+             --publish 8080:8080 \
+             --publish 8443:8443 \
+             --volume /home/developer/.vim \
+             --volume ~/Development/go:/go:rw \
+             --volume ~/.dev-env:/home/developer \
+             --volume ~/.ssh:/home/developer/.ssh:ro \
+             --volume /var/run/docker.sock:/var/run/docker.sock \
+             cagiti/dev-env:latest /bin/bash
+}
+
+setup_go_workspace
+setup_devenv_mount
+setup_environment
+run
