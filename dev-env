@@ -10,7 +10,7 @@ then
   mkdir -p ~/.dev-env
 fi
 
-cp ./env/.vimrc ~/.dev-env/.vimrc
+cp -r ./env/ ~/.dev-env/
 
 docker run --name dev-env \
            --rm \
