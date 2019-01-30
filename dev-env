@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
+
 if [[ ! -d ~/Development/go ]]
 then
   mkdir -p ~/Development/go
@@ -10,7 +12,7 @@ then
   mkdir -p ~/.dev-env
 fi
 
-cp -r ./env/ ~/.dev-env/
+cp -r "${SCRIPT_HOME}/env/" ~/.dev-env/
 
 docker run --name dev-env \
            --rm \
