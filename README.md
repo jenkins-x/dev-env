@@ -7,6 +7,8 @@ The intention of this project is to provide the necessary tools and packages req
 - [git](https://git-scm.com/)
 - [hub](https://github.com/github/hub)
 - [vi](https://www.vim.org/)
+  - [golang plugin](https://github.com/fatih/vim-go)
+  - [buffer switcher](https://github.com/manniwood/vim-buf)
 - [gcloud](https://cloud.google.com/sdk/gcloud/)
 - [helm](https://helm.sh/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
