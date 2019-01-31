@@ -1,3 +1,7 @@
+FROM jenkinsxio/jx:1.3.818 as jx
+FROM lachlanevenson/k8s-kubectl:latest as kubectl
+FROM lachlanevenson/k8s-helm:latest as helm
+FROM google/cloud-sdk:alpine as gcloud
 FROM golang:1.11-alpine3.8
 
 ARG user=developer
@@ -5,12 +9,7 @@ ARG group=developer
 ARG home=/home/${user}
 ARG uid=1000
 ARG gid=1000
-ENV HELM_VERSION 2.12.2
 ENV HUB_VERSION 2.7.0
-ENV KUBCTL_VERSION v1.6.4
-ENV JX_VERSION v1.3.731
-ENV CLOUD_SDK_VERSION 229.0.0
-ENV PATH /google-cloud-sdk/bin:$PATH
 ADD ./env/.vim/colors/molokai_dark.vim /tmp/colors/molokai_dark.vim
 WORKDIR /
 
@@ -49,24 +48,8 @@ RUN mkdir -p ${home} \
        libc6-compat \
        openssh-client \
        gnupg \
-    # Install gcloud cli
-    && curl -sLO https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz \
-    && tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz \
-    && rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz \
-    && ln -s /lib /lib64 \
-    && gcloud config set core/disable_usage_reporting true \
-    && gcloud config set component_manager/disable_update_check true \
-    && gcloud config set metrics/environment github_docker_image \
-    && gcloud --version \
-    # Install kubectl
-    && curl -sL https://storage.googleapis.com/kubernetes-release/release/${KUBCTL_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
-    && chmod +x /usr/local/bin/kubectl \
-    # Install jx
-    && curl -sL https://github.com/jenkins-x/jx/releases/download/${JX_VERSION}/jx-linux-amd64.tar.gz | tar xz -C /usr/local/bin \
     # Install hub-cli
     && curl -sL https://github.com/github/hub/releases/download/v${HUB_VERSION}/hub-linux-amd64-${HUB_VERSION}.tgz | tar zx --strip 2 -C /usr/local/bin hub-linux-amd64-${HUB_VERSION}/bin/hub \
-    # Install Helm
-    && curl -sL https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz | tar xz --strip 1 -C /usr/local/bin linux-amd64/tiller linux-amd64/helm \
     # Setup Docker hack - there must be a better way
     && usermod -a -G docker ${user} \
     && usermod -a -G root ${user} \
@@ -81,8 +64,13 @@ RUN mkdir -p ${home} \
     && mv /tmp/colors /home/${user}/.vim \
     && chown -R ${user}:${group} /home/${user}
 
+COPY --from=jx /usr/bin/jx /usr/local/bin/jx
+COPY --from=kubectl /usr/local/bin/kubectl /usr/local/bin/kubectl
+COPY --from=helm /usr/local/bin/helm /usr/local/bin/helm
+COPY --from=gcloud /google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
+COPY --from=gcloud /google-cloud-sdk/lib/* /usr/local/lib/
+
 # Setup Environment
 USER ${user}
 ENV PS1='$(echo -e "'"\U1F645"'") \[\033[32m\]\u \[\033[33m\]\w($(git branch 2>/dev/null | sed -n "s/* \(.*\)/\1/p"))\[\033[00m\]$ '
-ENV PATH /google-cloud-sdk/bin:$PATH
 WORKDIR /go/src
