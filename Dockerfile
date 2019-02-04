@@ -38,6 +38,8 @@ RUN mkdir -p ${home} \
        curl \
        openjdk8 \
        git \
+       git-perl \
+       git-email \
        tig \
        bash \
        tmux \
