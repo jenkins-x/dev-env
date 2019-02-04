@@ -69,8 +69,14 @@ RUN mkdir -p ${home} \
 COPY --from=jx /usr/bin/jx /usr/local/bin/jx
 COPY --from=kubectl /usr/local/bin/kubectl /usr/local/bin/kubectl
 COPY --from=helm /usr/local/bin/helm /usr/local/bin/helm
-COPY --from=gcloud /google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
-COPY --from=gcloud /google-cloud-sdk/lib/* /usr/local/lib/
+COPY --from=gcloud /google-cloud-sdk /usr/local/google-cloud-sdk
+
+# gcloud configurations
+ENV PATH /usr/local/google-cloud-sdk/bin:$PATH
+RUN ln -s /lib /lib64 \
+    && gcloud config set core/disable_usage_reporting true \
+    && gcloud config set component_manager/disable_update_check true \
+    && gcloud config set metrics/environment github_docker_image
 
 # Setup Environment
 USER ${user}
