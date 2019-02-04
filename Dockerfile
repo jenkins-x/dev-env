@@ -10,6 +10,7 @@ ARG home=/home/${user}
 ARG uid=1000
 ARG gid=1000
 ENV HUB_VERSION 2.7.0
+ENV DEP_VERSION 0.5.0
 ADD ./env/.vim/colors/molokai_dark.vim /tmp/colors/molokai_dark.vim
 WORKDIR /
 
@@ -55,6 +56,8 @@ RUN mkdir -p ${home} \
     # Setup Docker hack - there must be a better way
     && usermod -a -G docker ${user} \
     && usermod -a -G root ${user} \
+    # Install dep
+    && curl -sL https://raw.githubusercontent.com/golang/dep/v${DEP_VERSION}/install.sh | sh \
     # Configure vi environment
     && mkdir -p /home/${user}/.vim/pack/plugins/start \
     && rm /usr/bin/vi && ln -s /usr/bin/vim /usr/bin/vi \
