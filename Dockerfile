@@ -67,7 +67,8 @@ RUN mkdir -p ${home} \
     && git clone https://github.com/fatih/vim-go.git /home/${user}/.vim/pack/plugins/start/vim-go \
     && git clone https://github.com/manniwood/vim-buf.git /home/${user}/.vim/pack/plugins/start/vim-buf \
     && mv /tmp/colors /home/${user}/.vim \
-    && chown -R ${user}:${group} /home/${user}
+    && chown -R ${user}:${group} /home/${user} \
+    && chown -R ${user}:${group} /go
 
 COPY --from=jx /usr/bin/jx /usr/local/bin/jx
 COPY --from=kubectl /usr/local/bin/kubectl /usr/local/bin/kubectl
@@ -83,5 +84,7 @@ RUN ln -s /lib /lib64 \
 
 # Setup Environment
 USER ${user}
+# Install ko
+RUN go get -u github.com/google/go-containerregistry/cmd/ko
 ENV PS1='$(echo -e "'"\U1F645"'") \[\033[32m\]\u \[\033[33m\]\w($(git branch 2>/dev/null | sed -n "s/* \(.*\)/\1/p"))\[\033[00m\]$ '
 WORKDIR /go/src
