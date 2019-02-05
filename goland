@@ -1,5 +1,8 @@
 #!/bin/bash
 
+[ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
+source ./env/env.sh $ENV
+
 if [ $(export | grep -c DISPLAY) -gt 0 ]
 then
   PORT=$(ps -ef | grep "Xquartz :\d" | grep -v xinit | awk '{ print $9; }')

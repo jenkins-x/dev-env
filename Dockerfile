@@ -11,7 +11,7 @@ ARG uid=1000
 ARG gid=1000
 ENV HUB_VERSION 2.7.0
 ENV DEP_VERSION 0.5.0
-ADD ./env/.vim/colors/molokai_dark.vim /tmp/colors/molokai_dark.vim
+ADD ./env/default/.vim/colors/molokai_dark.vim /tmp/colors/molokai_dark.vim
 WORKDIR /
 
 # Add developer user

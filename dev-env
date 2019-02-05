@@ -1,41 +1,44 @@
 #!/bin/bash
 
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
+[ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
+source ./env/env.sh $ENV
 
-function setup_go_workspace(){
-  if [[ ! -d ~/Development/go ]]
+function setup_workspace(){
+  if [[ ! -d $WORKSPACE ]]
   then
-    mkdir -p ~/Development/go
+    mkdir -p $WORKSPACE
   fi
 }
 
-function setup_devenv_mount(){
-  if [[ ! -d ~/.dev-env ]]
+function setup_mount(){
+  if [[ ! -d $MOUNT ]]
   then
-    mkdir -p ~/.dev-env
+    mkdir -p $MOUNT
   fi
 }
 
 function setup_environment(){
-  cp -r "${SCRIPT_HOME}/env/" ~/.dev-env/
+  cp -r $SCRIPT_HOME/env/$ENV/ $MOUNT/
 }
 
 function run(){
-  docker run --name dev-env \
-             --rm \
-             --tty \
-             --interactive \
-             --publish 8080:8080 \
-             --publish 8443:8443 \
-             --volume /home/developer/.vim \
-             --volume ~/Development/go:/go:rw \
-             --volume ~/.dev-env:/home/developer \
-             --volume ~/.ssh:/home/developer/.ssh:ro \
-             --volume /var/run/docker.sock:/var/run/docker.sock \
-             cagiti/dev-env:latest /bin/bash
+  $SUDO docker run --name dev-env \
+                   --rm \
+                   --tty \
+                   --interactive \
+                   --publish 8080:8080 \
+                   --publish 8443:8443 \
+                   --volume /go/bin \
+                   --volume /home/developer/.vim \
+                   --volume $WORKSPACE/go:/go:rw \
+                   --volume $MOUNT:/home/developer \
+                   --volume $SSH:/home/developer/.ssh:ro \
+                   --volume $DOCKER_SOCKET:/var/run/docker.sock \
+                   cagiti/dev-env:latest /bin/bash
 }
 
-setup_go_workspace
-setup_devenv_mount
+setup_workspace
+setup_mount
 setup_environment
 run
