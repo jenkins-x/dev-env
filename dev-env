@@ -26,6 +26,7 @@ function run(){
   $SUDO docker run --name dev-env \
                    --rm \
                    --tty \
+                   --env TERM=screen-256color-bce \
                    --interactive \
                    --publish 8080:8080 \
                    --publish 8443:8443 \

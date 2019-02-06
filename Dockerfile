@@ -58,6 +58,8 @@ RUN mkdir -p ${home} \
     && usermod -a -G root ${user} \
     # Install dep
     && curl -sL https://raw.githubusercontent.com/golang/dep/v${DEP_VERSION}/install.sh | sh \
+    # Configure tmux
+    && curl -sL https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf > /home/${user}/.tmux.conf \
     # Configure vi environment
     && mkdir -p /home/${user}/.vim/pack/plugins/start \
     && rm /usr/bin/vi && ln -s /usr/bin/vim /usr/bin/vi \

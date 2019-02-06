@@ -27,3 +27,7 @@ $ git clone https://github.com/cagiti/dev-env
 $ cd dev-env
 $ ./dev-env
 ```
+
+## tmux
+This environment uses tmux to manage its window sessions. The environment is configured with the configuration from [here](https://github.com/gpakosz/.tmux), so a big thank you to [Gregory Pakosz](https://github.com/gpakosz) for the tmux configuration). The tmux key bindings can be found [here](https://github.com/gpakosz/.tmux#bindings), with the exception of the *horizontal split* _below_ (overridden within the environments `.tmux.conf.local` file):
+- `<prefix> \` splits the current pane horizontally
