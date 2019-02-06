@@ -16,5 +16,10 @@ function setup_aliases(){
   alias t='tmux -u'
 }
 
+function setup_hub(){
+  eval "$(hub alias -s)"
+}
+
 setup_aliases
 load_ssh_key
+setup_hub
