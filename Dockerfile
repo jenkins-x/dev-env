@@ -86,5 +86,4 @@ RUN ln -s /lib /lib64 \
 USER ${user}
 # Install ko
 RUN go get -u github.com/google/go-containerregistry/cmd/ko
-ENV PS1='$(echo -e "'"\U1F645"'") \[\033[32m\]\u \[\033[33m\]\w($(git branch 2>/dev/null | sed -n "s/* \(.*\)/\1/p"))\[\033[00m\]$ '
 WORKDIR /go/src
