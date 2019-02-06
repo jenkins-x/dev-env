@@ -35,7 +35,7 @@ function run(){
                    --volume $MOUNT:/home/developer \
                    --volume $SSH:/home/developer/.ssh:ro \
                    --volume $DOCKER_SOCKET:/var/run/docker.sock \
-                   cagiti/dev-env:latest /bin/bash
+                   cagiti/dev-env:latest tmux -u
 }
 
 setup_workspace
