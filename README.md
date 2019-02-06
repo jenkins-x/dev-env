@@ -13,6 +13,8 @@ The intention of this project is to provide the necessary tools and packages req
 - [helm](https://helm.sh/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [jx](https://github.com/jenkins-x/jx)
+- [dep](https://github.com/golang/dep)
+- [ko](https://github.com/google/go-containerregistry/tree/master/cmd/ko)
 
 ## support
 The dev-env has only been verified on **MacOS**. It should _execute_ on other operating systems capable of running docker containers, but you may encounter issues.
@@ -29,5 +31,5 @@ $ ./dev-env
 ```
 
 ## tmux
-This environment uses tmux to manage its window sessions. The environment is configured with the configuration from [here](https://github.com/gpakosz/.tmux), so a big thank you to [Gregory Pakosz](https://github.com/gpakosz) for the tmux configuration). The tmux key bindings can be found [here](https://github.com/gpakosz/.tmux#bindings), with the exception of the *horizontal split* _below_ (overridden within the environments `.tmux.conf.local` file):
+This environment uses tmux to manage its window sessions. The environment is configured with the configuration from [here](https://github.com/gpakosz/.tmux), so a big thank you to [Gregory Pakosz](https://github.com/gpakosz) for the tmux configuration). The tmux key bindings can be found [here](https://github.com/gpakosz/.tmux#bindings), with the exception of the **horizontal split** _below_ (overridden within the environments `.tmux.conf.local` file):
 - `<prefix> \` splits the current pane horizontally
