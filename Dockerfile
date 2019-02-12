@@ -51,6 +51,7 @@ RUN mkdir -p ${home} \
        libc6-compat \
        openssh-client \
        gnupg \
+       openssl \
     # Install hub-cli
     && curl -sL https://github.com/github/hub/releases/download/v${HUB_VERSION}/hub-linux-amd64-${HUB_VERSION}.tgz | tar zx --strip 2 -C /usr/local/bin hub-linux-amd64-${HUB_VERSION}/bin/hub \
     # Setup Docker hack - there must be a better way
