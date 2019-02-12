@@ -3,20 +3,27 @@
 [ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
 source ./env/env.sh $ENV
 
-if [[ ! -z DISPLAY ]]
+if [ -z $DISPLAY ]
 then
   echo "${X11_ERROR}"
   exit 1
 fi
 
 function setup_env_vars() {
-  if [ $(export | grep -c DISPLAY) -gt 0 ]
+  PORT=$(ps -ef | grep "Xquartz :\d" | grep -v xinit | awk '{ print $9; }')
+  display="--env DISPLAY=$(hostname)${PORT}"
+}
+
+function setup_xquartz() {
+  if [ -x $XHOST ]
   then
-    PORT=$(ps -ef | grep "Xquartz :\d" | grep -v xinit | awk '{ print $9; }')
-    X11_PATH=${DISPLAY/:0}
-    display="--env DISPLAY=host.docker.internal${PORT}"
+    [ -z $(pgrep Xquartz) ] && $XHOST
+    if [ `$XHOST | grep -ic $(hostname)` -eq 0 ]
+    then
+      xhost + $(hostname)
+    fi
   else
-    display=""
+    echo "${XQUARTZ_ERROR}"
   fi
 }
 
@@ -29,7 +36,7 @@ function run() {
              --detach \
              ${display} \
              --security-opt=seccomp:unconfined \
-             --volume ${X11_PATH}:/tmp/.X11-unix \
+             --volume ${DISPLAY/:0}:/tmp/.X11-unix \
              --volume ~/.GoLand:/home/developer/.GoLand \
              --volume ~/.GoLand.java:/home/developer/.java \
              --volume $WORKSPACE/go:/home/developer/go \
@@ -37,6 +44,7 @@ function run() {
              ${GOLAND}
 }
 
+setup_xquartz
 setup_env_vars
 pull_latest
 run
