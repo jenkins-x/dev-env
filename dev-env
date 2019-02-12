@@ -20,6 +20,7 @@ function setup_mount(){
 
 function setup_environment(){
   cp -r $SCRIPT_HOME/env/$ENV/ $MOUNT/
+  curl -sL https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf > $MOUNT/.tmux.conf
 }
 
 function run(){
