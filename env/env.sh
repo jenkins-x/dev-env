@@ -17,7 +17,7 @@ else
   DOCKER_SOCKET=/var/run/docker.sock
   MOUNT=~/.dev-env
   WORKSPACE=~/workspace
-  GO_WORKSPACE=~/workspace/go
+  GO_WORKSPACE=~/go-workspace
   SSH=~/.ssh
   SUDO="sudo"
   X11_ERROR="Not supported"
