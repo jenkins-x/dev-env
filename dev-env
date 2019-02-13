@@ -32,6 +32,7 @@ function run(){
                    --publish 8080:8080 \
                    --publish 8443:8443 \
                    --volume /home/developer/.vim \
+                   --volume /home/developer/workspace/go/bin \
                    --volume $WORKSPACE:/home/developer/workspace:rw \
                    --volume $GO_WORKSPACE:/home/developer/go-workspace:rw \
                    --volume $MOUNT:/home/developer \
