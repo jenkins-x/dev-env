@@ -15,6 +15,8 @@ The intention of this project is to provide the necessary tools and packages req
 - [jx](https://github.com/jenkins-x/jx)
 - [dep](https://github.com/golang/dep)
 - [ko](https://github.com/google/go-containerregistry/tree/master/cmd/ko)
+#### IDE
+- [GoLand](docs/goland.md)
 
 ## support
 The dev-env has only been verified on **MacOS**. It should _execute_ on other operating systems capable of running docker containers, but you may encounter issues.
