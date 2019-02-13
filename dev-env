@@ -5,9 +5,9 @@ SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
 source ./env/env.sh $ENV
 
 function setup_workspace(){
-  if [[ ! -d $WORKSPACE ]]
+  if [[ ! -d $GO_WORKSPACE ]]
   then
-    mkdir -p $WORKSPACE
+    mkdir -p $GO_WORKSPACE
   fi
 }
 
@@ -31,9 +31,9 @@ function run(){
                    --interactive \
                    --publish 8080:8080 \
                    --publish 8443:8443 \
-                   --volume /go/bin \
                    --volume /home/developer/.vim \
-                   --volume $WORKSPACE/go:/go:rw \
+                   --volume $WORKSPACE:/home/developer/workspace:rw \
+                   --volume $GO_WORKSPACE:/home/developer/go-workspace:rw \
                    --volume $MOUNT:/home/developer \
                    --volume $SSH:/home/developer/.ssh:ro \
                    --volume $DOCKER_SOCKET:/var/run/docker.sock \

@@ -11,6 +11,8 @@ ARG uid=1000
 ARG gid=1000
 ENV HUB_VERSION 2.7.0
 ENV DEP_VERSION 0.5.0
+ENV GOPATH /home/${user}/workspace/go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 ADD ./env/default/.vim/colors/molokai_dark.vim /tmp/colors/molokai_dark.vim
 WORKDIR /
 
@@ -69,7 +71,6 @@ RUN mkdir -p ${home} \
     && git clone https://github.com/manniwood/vim-buf.git /home/${user}/.vim/pack/plugins/start/vim-buf \
     && mv /tmp/colors /home/${user}/.vim \
     && chown -R ${user}:${group} /home/${user} \
-    && chown -R ${user}:${group} /go
 
 COPY --from=jx /usr/bin/jx /usr/local/bin/jx
 COPY --from=kubectl /usr/local/bin/kubectl /usr/local/bin/kubectl
@@ -87,4 +88,4 @@ RUN ln -s /lib /lib64 \
 USER ${user}
 # Install ko
 RUN go get -u github.com/google/go-containerregistry/cmd/ko
-WORKDIR /go/src
+WORKDIR /home/$user/workspace
