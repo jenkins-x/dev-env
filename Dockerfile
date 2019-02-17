@@ -85,6 +85,10 @@ RUN ln -s /lib /lib64 \
     && gcloud config set component_manager/disable_update_check true \
     && gcloud config set metrics/environment github_docker_image
 
+# Install pre-commit (https://pre-commit.com/)
+RUN curl -sL https://pre-commit.com/install-local.py | python -
+ENV PATH /home/${user}/bin:$PATH
+
 # Setup Environment
 USER ${user}
 # Install ko

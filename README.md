@@ -15,6 +15,7 @@ The intention of this project is to provide the necessary tools and packages req
 - [jx](https://github.com/jenkins-x/jx)
 - [dep](https://github.com/golang/dep)
 - [ko](https://github.com/google/go-containerregistry/tree/master/cmd/ko)
+- [pre-commit](https://pre-commit.com/)
 #### IDE
 - [GoLand](docs/goland.md)
 
