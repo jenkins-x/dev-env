@@ -1,0 +1,15 @@
+repos:
+- repo: git://github.com/pre-commit/pre-commit-hooks
+  rev: v2.1.0
+  hooks:
+    - id: check-added-large-files
+    - id: check-executables-have-shebangs
+    - id: check-merge-conflict
+    - id: check-symlinks
+    - id: detect-private-key
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+- repo: https://github.com/gruntwork-io/pre-commit
+  rev: v0.0.7
+  hooks:
+    - id: shellcheck
