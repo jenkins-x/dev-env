@@ -3,6 +3,7 @@
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
 [ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
 source ./env/env.sh $ENV
+kube=""
 
 function setup_workspace(){
   if [[ ! -d $GO_WORKSPACE ]]
@@ -21,12 +22,17 @@ function setup_mount(){
 function setup_environment(){
   cp -r $SCRIPT_HOME/env/$ENV/. $MOUNT/
   curl -sL https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf > $MOUNT/.tmux.conf
+  if [[ -d ~/.kube ]]
+  then
+    kube="--volume ~/.kube:/home/developer/.kube"
+  fi
 }
 
 function run(){
   $SUDO docker run --name dev-env \
                    --rm \
                    --tty \
+		   "${kube}" \
                    --env TERM=screen-256color-bce \
                    --interactive \
                    --publish 8080:8080 \
