@@ -256,3 +256,6 @@ let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
 " at the expense of not being able to type j and k
 inoremap <expr> j ((pumvisible())?("\<C-n>"):("j"))
 inoremap <expr> k ((pumvisible())?("\<C-p>"):("k"))
+
+au BufNewFile,BufRead Jenkinsfile* setf groovy
+au BufNewFile,BufRead *.groovy setf groovy

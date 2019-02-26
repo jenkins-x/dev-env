@@ -14,6 +14,7 @@ ENV DEP_VERSION 0.5.0
 ENV GOPATH ${home}/go-workspace
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 ADD ./env/default/.vim/colors/molokai_dark.vim /tmp/colors/molokai_dark.vim
+ADD ./env/default/.vim/syntax/groovy.vim /tmp/syntax/groovy.vim
 WORKDIR /
 
 # Add developer user
@@ -64,6 +65,7 @@ RUN apk --no-cache --update add \
     && curl -sL https://raw.githubusercontent.com/golang/dep/v${DEP_VERSION}/install.sh | sh \
     # Configure vi environment
     && mkdir -p /home/${user}/.vim/pack/plugins/start \
+    && mkdir -p /home/${user}/.vim/syntax \
     && rm /usr/bin/vi && ln -s /usr/bin/vim /usr/bin/vi \
     && go get golang.org/x/tools/cmd/gorename \
     && go get github.com/nsf/gocode \
@@ -71,6 +73,7 @@ RUN apk --no-cache --update add \
     && git clone https://github.com/fatih/vim-go.git /home/${user}/.vim/pack/plugins/start/vim-go \
     && git clone https://github.com/manniwood/vim-buf.git /home/${user}/.vim/pack/plugins/start/vim-buf \
     && mv /tmp/colors /home/${user}/.vim \
+    && mv /tmp/syntax /home/${user}/.vim \
     && chown -R ${user}:${group} /home/${user}
 
 COPY --from=jx /usr/bin/jx /usr/local/bin/jx
