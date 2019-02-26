@@ -1,6 +1,6 @@
 FROM jenkinsxio/jx:1.3.930 as jx
 FROM lachlanevenson/k8s-kubectl:latest as kubectl
-FROM lachlanevenson/k8s-helm:latest as helm
+FROM lachlanevenson/k8s-helm:v2.12.3 as helm
 FROM google/cloud-sdk:alpine as gcloud
 FROM golang:1.11-alpine3.8
 
