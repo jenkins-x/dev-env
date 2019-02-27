@@ -14,6 +14,7 @@ function setup_aliases(){
   alias ll='ls -la'
   alias tmux='tmux -u'
   alias t='tmux -u'
+  alias kb='kubectl'
 }
 
 function setup_hub(){
