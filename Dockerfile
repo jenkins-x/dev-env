@@ -1,5 +1,8 @@
-FROM jenkinsxio/jx:1.3.930 as jx
-FROM lachlanevenson/k8s-kubectl:v1.13.3 as kubectl
+ARG JX_VERSION
+ARG KUBCTL_VERSION
+
+FROM jenkinsxio/jx:$JX_VERSION as jx
+FROM lachlanevenson/k8s-kubectl:$KUBCTL_VERSION as kubectl
 FROM lachlanevenson/k8s-helm:v2.12.3 as helm
 FROM google/cloud-sdk:alpine as gcloud
 FROM golang:1.11.5-alpine3.9
