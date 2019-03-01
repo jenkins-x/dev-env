@@ -1,5 +1,5 @@
 ARG JX_VERSION=1.3.932
-ARG KUBCTL_VERSION=1.13.3
+ARG KUBCTL_VERSION=v1.13.3
 
 FROM jenkinsxio/jx:$JX_VERSION as jx
 FROM lachlanevenson/k8s-kubectl:$KUBCTL_VERSION as kubectl
