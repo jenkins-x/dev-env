@@ -1,4 +1,4 @@
 set -g default-command bash
 bind \ split-window -h
 tmux_conf_theme_status_left=' ❐ #S | ↑#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} '
-tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} , #(if [ $(curl -s 'wttr.in/Cardiff?format=3' --fail) ]; then curl 'wttr.in/Cardiff?format=3'; else echo "Weather Unavailable"; fi) , load: #{loadavg} , %R , %d %b , #{hostname} '
+tmux_conf_theme_status_right='#{prefix}#{pairing}#{synchronized} , #(if [ `jx env -b | grep -c "prod"` -gt 0 ]; then tmux set -g window-style 'fg=white,bg=red';tmux set -g status-bg red; echo PROD; else tmux set -g window-style 'fg=default,bg=default';tmux set -g status-bg default; echo DEV; fi), #(if [ $(curl -s 'wttr.in/Cardiff?format=3' --fail) ]; then curl 'wttr.in/Cardiff?format=3'; else echo "Weather Unavailable"; fi) , load: #{loadavg} , %R , %d %b , #{hostname} '
