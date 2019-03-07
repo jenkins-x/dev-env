@@ -26,3 +26,4 @@ function setup_hub(){
 setup_aliases
 load_ssh_key
 setup_hub
+set -o vi
