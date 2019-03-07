@@ -57,7 +57,7 @@ set showcmd
 " set cursorline " leave off for now; ugly when listing hidden chars
 
 " turn on line numbers
-"set number  " leave off for now
+set number
 
 " flash screen on bell
 set visualbell
