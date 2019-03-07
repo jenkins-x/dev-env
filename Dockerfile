@@ -5,6 +5,7 @@ FROM jenkinsxio/jx:$JX_VERSION as jx
 FROM lachlanevenson/k8s-kubectl:$KUBCTL_VERSION as kubectl
 FROM lachlanevenson/k8s-helm:v2.12.3 as helm
 FROM google/cloud-sdk:alpine as gcloud
+FROM groovy:2.5.6-jdk8-alpine as groovy
 FROM golang:1.11.4-alpine3.8
 
 ARG user=developer
@@ -16,6 +17,7 @@ ENV HUB_VERSION 2.7.0
 ENV DEP_VERSION 0.5.0
 ENV GOPATH ${home}/go-workspace
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+ENV GROOVY_HOME /opt/groovy
 ADD ./env/default/.vim/colors/molokai_dark.vim /tmp/colors/molokai_dark.vim
 ADD ./env/default/.vim/syntax/groovy.vim /tmp/syntax/groovy.vim
 WORKDIR /
@@ -66,6 +68,8 @@ RUN apk --no-cache --update add \
     && usermod -a -G root ${user} \
     # Install dep
     && curl -sL https://raw.githubusercontent.com/golang/dep/v${DEP_VERSION}/install.sh | sh \
+    # Setup dirs for groovy
+    && mkdir -p /opt \
     # Configure vi environment
     && mkdir -p /home/${user}/.vim/pack/plugins/start \
     && mkdir -p /home/${user}/.vim/syntax \
@@ -83,6 +87,7 @@ COPY --from=jx /usr/bin/jx /usr/local/bin/jx
 COPY --from=kubectl /usr/local/bin/kubectl /usr/local/bin/kubectl
 COPY --from=helm /usr/local/bin/helm /usr/local/bin/helm
 COPY --from=gcloud /google-cloud-sdk /usr/local/google-cloud-sdk
+COPY --from=groovy /opt/groovy /opt/groovy
 
 # gcloud configurations
 ENV PATH /usr/local/google-cloud-sdk/bin:$PATH
@@ -90,6 +95,15 @@ RUN ln -s /lib /lib64 \
     && gcloud config set core/disable_usage_reporting true \
     && gcloud config set component_manager/disable_update_check true \
     && gcloud config set metrics/environment github_docker_image
+
+# groovy configurations
+RUN ln -s "${GROOVY_HOME}/bin/grape" /usr/bin/grape \
+    && ln -s "${GROOVY_HOME}/bin/groovy" /usr/bin/groovy \
+    && ln -s "${GROOVY_HOME}/bin/groovyc" /usr/bin/groovyc \
+    && ln -s "${GROOVY_HOME}/bin/groovyConsole" /usr/bin/groovyConsole \
+    && ln -s "${GROOVY_HOME}/bin/groovydoc" /usr/bin/groovydoc \
+    && ln -s "${GROOVY_HOME}/bin/groovysh" /usr/bin/groovysh \
+    && ln -s "${GROOVY_HOME}/bin/java2groovy" /usr/bin/java2groovy
 
 # Install pre-commit (https://pre-commit.com/)
 RUN curl -sL https://pre-commit.com/install-local.py | python -

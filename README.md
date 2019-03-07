@@ -4,6 +4,7 @@ _A development environment built upon docker._
 ## overview
 The intention of this project is to provide the necessary tools and packages required for a standard golang development environment which is convenient and accessible. The dev-env is built upon the an [alpine 3.8 golang image](https://hub.docker.com/_/golang), this includes the following tools/packages:
 - [golang](https://golang.org/)
+- [groovy](http://groovy-lang.org/)
 - [git](https://git-scm.com/)
 - [hub](https://github.com/github/hub)
 - [vi](https://www.vim.org/)
