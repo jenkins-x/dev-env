@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PORTS="/tmp/.ports-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S')"
+touch "$PORTS"
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
 [ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
 source ./env/env.sh $ENV
@@ -18,6 +20,20 @@ function setup_mount(){
   fi
 }
 
+function get_unused_port() {
+  for port in $(seq 8000 9000);
+  do
+    if [ $(grep -c "$port" "$PORTS") -eq 0 ]
+    then
+      nc -zv 127.0.0.1 $port > /dev/null 2>&1
+      [ $? -eq 1 ] \
+        && echo $port >> "$PORTS"\
+        && echo "$port" \
+        && break;
+    fi
+  done
+}
+
 function setup_environment(){
   cp -r $SCRIPT_HOME/env/$ENV/. $MOUNT/
   curl -sL https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf > $MOUNT/.tmux.conf
@@ -28,13 +44,18 @@ function setup_environment(){
 }
 
 function run(){
-  $SUDO docker run --name dev-env \
+  PORT_8080=$(get_unused_port)
+  PORT_8443=$(get_unused_port)
+  echo "Using $PORT_8080 for 8080 traffic"
+  echo "Using $PORT_8443 for 8443 traffic"
+  rm "$PORTS"
+  $SUDO docker run --name dev-env-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
                    --rm \
                    --tty \
                    --env TERM=screen-256color-bce \
                    --interactive \
-                   --publish 8080:8080 \
-                   --publish 8443:8443 \
+                   --publish $PORT_8080:8080 \
+                   --publish $PORT_8443:8443 \
                    --volume /home/developer/.vim \
                    --volume /home/developer/go-workspace/bin \
                    --volume $WORKSPACE:/home/developer/workspace:rw \
