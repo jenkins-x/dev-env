@@ -5,7 +5,7 @@ FROM jenkinsxio/jx:$JX_VERSION as jx
 FROM lachlanevenson/k8s-kubectl:$KUBCTL_VERSION as kubectl
 FROM lachlanevenson/k8s-helm:v2.12.3 as helm
 FROM google/cloud-sdk:alpine as gcloud
-FROM golang:1.11.5-alpine3.9
+FROM golang:1.11.4-alpine3.8
 
 ARG user=developer
 ARG group=developer
