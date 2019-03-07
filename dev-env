@@ -53,6 +53,8 @@ function run(){
                    --rm \
                    --tty \
                    --env TERM=screen-256color-bce \
+                   --env PORT_8080=$PORT_8080 \
+                   --env PORT_8443=$PORT_8443 \
                    --interactive \
                    --publish $PORT_8080:8080 \
                    --publish $PORT_8443:8443 \
