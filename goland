@@ -9,6 +9,18 @@ then
   exit 1
 fi
 
+function create_dir() {
+  if [ ! -d "${1}" ]; then
+    mkdir ${1}
+    sudo chown ${USER}:${USER} ${1}
+  fi
+}
+
+function create_dirs() {
+  create_dir ~/.GoLand
+  create_dir ~/.GoLand.java
+}
+
 function setup_env_vars() {
   PORT=$(ps -ef | grep "Xquartz :\d" | grep -v xinit | awk '{ print $9; }')
   display="--env DISPLAY=$(hostname)${PORT}"
@@ -44,6 +56,7 @@ function run() {
              ${GOLAND}
 }
 
+create_dirs
 setup_xquartz
 setup_env_vars
 pull_latest
