@@ -46,8 +46,6 @@ function setup_environment(){
 function run(){
   PORT_8080=$(get_unused_port)
   PORT_8443=$(get_unused_port)
-  echo "Using $PORT_8080 for 8080 traffic"
-  echo "Using $PORT_8443 for 8443 traffic"
   rm "$PORTS"
   $SUDO docker run --name dev-env-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
                    --rm \
