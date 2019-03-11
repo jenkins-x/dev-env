@@ -10,7 +10,7 @@ then
 fi
 
 function create_dir() {
-  mkdir ${1}
+  mkdir -p ${1}
   sudo chown ${USER}:${USER} ${1}
 }
 
