@@ -1,9 +1,10 @@
 ARG JX_VERSION=1.3.971
 ARG KUBCTL_VERSION=v1.13.4
+ARG HELM_VERSION=v2.12.3
 
 FROM jenkinsxio/jx:$JX_VERSION as jx
 FROM lachlanevenson/k8s-kubectl:$KUBCTL_VERSION as kubectl
-FROM lachlanevenson/k8s-helm:v2.12.3 as helm
+FROM lachlanevenson/k8s-helm:$HELM_VERSION as helm
 FROM google/cloud-sdk:alpine as gcloud
 FROM groovy:2.5.6-jdk8-alpine as groovy
 FROM golang:1.11.4-alpine3.8
