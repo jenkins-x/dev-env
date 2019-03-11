@@ -10,10 +10,8 @@ then
 fi
 
 function create_dir() {
-  if [ ! -d "${1}" ]; then
-    mkdir ${1}
-    sudo chown ${USER}:${USER} ${1}
-  fi
+  mkdir ${1}
+  sudo chown ${USER}:${USER} ${1}
 }
 
 function create_dirs() {
