@@ -10,6 +10,7 @@ build:
 			--build-arg JX_VERSION=$(JX_VERSION) \
 			--build-arg KUBCTL_VERSION=$(KUBCTL_VERSION) \
 			--build-arg HELM_VERSION=$(HELM_VERSION) \
+			--build-arg GCLOUD_VERSION=$(GCLOUD_VERSION) \
 			--file $(DOCKERFILE) .
 
 .PHONY: build
