@@ -1,6 +1,6 @@
 include .makerc
 SHELL := /bin/bash
-DOCKER := DOCKER_BUILDKIT=1 docker 
+DOCKER := DOCKER_BUILDKIT=0 docker
 DOCKERFILE := Dockerfile
 
 all: build

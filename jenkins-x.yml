@@ -1,0 +1,29 @@
+buildPack: none
+pipelineConfig:
+  pipelines:
+    pullRequest:
+      pipeline:
+        agent:
+          image: gcr.io/jenkinsxio/builder-jx:0.1.289
+        stages:
+        - name: "continuous-integration"
+          steps:
+          - image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
+            command: /kaniko/executor
+            args:
+              - --dockerfile=Dockerfile
+              - --destination=gcr.io/jenkinsxio/dev-env:${inputs.params.version}
+              - --context=/workspace/workspace
+    release:
+      pipeline:
+        agent:
+          image: gcr.io/jenkinsxio/builder-jx:0.1.289
+        stages:
+        - name: "continuous-integration"
+          steps:
+          - image: gcr.io/kaniko-project/executor:9912ccbf8d22bbafbf971124600fbb0b13b9cbd6
+            command: /kaniko/executor
+            args:
+              - --dockerfile=Dockerfile
+              - --destination=gcr.io/jenkinsxio/dev-env:${inputs.params.version}
+              - --context=/workspace/workspace
