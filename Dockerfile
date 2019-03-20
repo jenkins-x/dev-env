@@ -78,6 +78,7 @@ RUN apk --no-cache --update add \
     && rm /usr/bin/vi && ln -s /usr/bin/vim /usr/bin/vi \
     && go get golang.org/x/tools/cmd/gorename \
     && go get github.com/nsf/gocode \
+    && go get github.com/mfuentesg/ksd \
     && $GOPATH/bin/gocode set propose-builtins true \
     && git clone https://github.com/fatih/vim-go.git /home/${user}/.vim/pack/plugins/start/vim-go \
     && git clone https://github.com/manniwood/vim-buf.git /home/${user}/.vim/pack/plugins/start/vim-buf \
