@@ -63,8 +63,8 @@ function run(){
                    --volume $MOUNT:/home/developer \
                    --volume $SSH:/home/developer/.ssh:ro \
                    --volume $DOCKER_SOCKET:/var/run/docker.sock \
-		   ${kube} \
-                   cagiti/dev-env:latest tmux -u
+                   ${kube} \
+                   gcr.io/jenkinsxio/dev-env:0.0.4 tmux -u
 }
 
 setup_workspace
