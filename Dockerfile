@@ -54,6 +54,7 @@ RUN apk --no-cache --update add \
        git-email \
        tig \
        bash \
+       bash-completion \
        tmux \
        make \
        terraform \
