@@ -37,7 +37,7 @@ make build
 ## run
 To execute the dev-env, perform the following:
 ```
-$ git clone https://github.com/cagiti/dev-env
+$ git clone https://github.com/jenkins-x/dev-env
 $ cd dev-env
 $ ./dev-env
 ```
