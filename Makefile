@@ -5,7 +5,7 @@ DOCKERFILE := Dockerfile
 all: build
 
 build:
-	$(DOCKER) build --tag cagiti/dev-env \
+	$(DOCKER) build --tag gcr.io/jenkinsxio/dev-env \
 			--file $(DOCKERFILE) .
 
 .PHONY: build
