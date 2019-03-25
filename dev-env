@@ -46,6 +46,7 @@ function setup_environment(){
 function run(){
   PORT_8080=$(get_unused_port)
   PORT_8443=$(get_unused_port)
+  PORT_8313=$(get_unused_port)
   rm "$PORTS"
   $SUDO docker run --name dev-env-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
                    --rm \
@@ -53,9 +54,11 @@ function run(){
                    --env TERM=screen-256color-bce \
                    --env PORT_8080=$PORT_8080 \
                    --env PORT_8443=$PORT_8443 \
+                   --env PORT_8313=$PORT_8313 \
                    --interactive \
                    --publish $PORT_8080:8080 \
                    --publish $PORT_8443:8443 \
+                   --publish $PORT_8313:1313 \
                    --volume /home/developer/.vim \
                    --volume /home/developer/go-workspace/bin \
                    --volume $WORKSPACE:/home/developer/workspace:rw \

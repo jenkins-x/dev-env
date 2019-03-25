@@ -81,6 +81,7 @@ RUN apk --no-cache --update add \
     && go get github.com/nsf/gocode \
     && go get github.com/mfuentesg/ksd \
     && go get github.com/jenkins-x/jx-release-version \
+    && go get github.com/gohugoio/hugo \
     && $GOPATH/bin/gocode set propose-builtins true \
     && git clone https://github.com/fatih/vim-go.git /home/${user}/.vim/pack/plugins/start/vim-go \
     && git clone https://github.com/manniwood/vim-buf.git /home/${user}/.vim/pack/plugins/start/vim-buf \
