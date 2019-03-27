@@ -28,6 +28,10 @@ The dev-env has only been verified on **MacOS**. It should _execute_ on other op
 ## prerequisites
 You'll need [Docker](https://www.docker.com/) to use the dev-env, see [Docker for MacOS](https://hub.docker.com/editions/community/docker-ce-desktop-mac).
 
+Also, [XQuartz](https://www.xquartz.org/).
+
+Start XQuartz from command line using ```open -a XQuartz```. In the XQuartz preferences, go to the “Security” tab and make sure you’ve got “Allow connections from network clients” ticked.
+
 ## build
 Use the following command to build the docker image locally:
 ```
