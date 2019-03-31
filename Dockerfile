@@ -31,40 +31,40 @@ RUN mkdir -p ${home} \
     && mkdir -p $GOPATH/src $GOPATH/bin
 # Install standard dependencies
 RUN apk --no-cache --update add \
-       vim \
-       grep \
-       tar \
-       dos2unix \
-       shadow \
-       gcc \
-       libc-dev \
+       bash \
+       bash-completion \
        ca-certificates \
+       curl \
        docker \
-       tree \
+       dos2unix \
+       drill \
+       gcc \
+       git \
+       git-email \
+       git-perl \
+       gnupg \
+       grep \
        jq \
+       libc-dev \
+       libc6-compat \
+       make \
        multitail \
        ngrep \
        nmap \
-       unzip \
-       wget \
-       curl \
        openjdk8 \
-       git \
-       git-perl \
-       git-email \
-       tig \
-       bash \
-       bash-completion \
-       tmux \
-       make \
-       terraform \
-       python \
-       py-crcmod \
-       libc6-compat \
        openssh-client \
-       gnupg \
        openssl \
-       drill \
+       py-crcmod \
+       python \
+       shadow \
+       tar \
+       terraform \
+       tig \
+       tmux \
+       tree \
+       unzip \
+       vim \
+       wget \
     # Install hub-cli
     && curl -sL https://github.com/github/hub/releases/download/v${HUB_VERSION}/hub-linux-amd64-${HUB_VERSION}.tgz | tar zx --strip 2 -C /usr/local/bin hub-linux-amd64-${HUB_VERSION}/bin/hub \
     # Setup Docker hack - there must be a better way
