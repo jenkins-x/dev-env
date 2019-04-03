@@ -29,7 +29,7 @@ pipelineConfig:
             args:
               - --dockerfile=Dockerfile
               - --destination=gcr.io/jenkinsxio/dev-env:${inputs.params.version}
-              - --context=/workspace/workspace
+              - --context=/workspace/source
               - --cache-repo=gcr.io/jenkinsxio/cache
               - --cache=true
               - --cache-dir=/workspace
@@ -67,7 +67,7 @@ pipelineConfig:
             args:
               - --dockerfile=Dockerfile
               - --destination=gcr.io/jenkinsxio/dev-env:${inputs.params.version}
-              - --context=/workspace/workspace
+              - --context=/workspace/source
               - --cache-repo=gcr.io/jenkinsxio/cache
               - --cache=true
               - --cache-dir=/workspace
