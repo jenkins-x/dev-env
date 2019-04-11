@@ -119,6 +119,6 @@ ENV PATH /home/${user}/bin:$PATH
 # Setup Environment
 USER ${user}
 # Install ko
-RUN go get -u github.com/google/go-containerregistry/cmd/ko \
+RUN go get -u github.com/google/ko/cmd/ko \
     && go get -u github.com/go-delve/delve/cmd/dlv
 WORKDIR /home/$user/go-workspace
