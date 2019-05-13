@@ -35,18 +35,23 @@ function get_unused_port() {
 }
 
 function setup_environment(){
-  cp -r $SCRIPT_HOME/env/$ENV/. $MOUNT/
-  curl -sL https://raw.githubusercontent.com/gpakosz/.tmux/master/.tmux.conf > $MOUNT/.tmux.conf
   if [[ -d ~/.kube ]]
   then
     kube="--volume $HOME/.kube:/home/developer/.kube"
+  fi
+
+  if [[ -f $MOUNT/.bashrc ]]
+  then
+    echo ".bashrc file exists in ${MOUNT}"
+    echo "renaming .bashrc to .bash_profile"
+    mv ${MOUNT}/.bashrc ${MOUNT}/.bash_profile
   fi
 }
 
 function run(){
   PORT_8080=$(get_unused_port)
   PORT_8443=$(get_unused_port)
-  PORT_8313=$(get_unused_port)
+  PORT_1313=$(get_unused_port)
   rm "$PORTS"
   $SUDO docker run --name dev-env-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
                    --rm \
@@ -54,20 +59,35 @@ function run(){
                    --env TERM=screen-256color-bce \
                    --env PORT_8080=$PORT_8080 \
                    --env PORT_8443=$PORT_8443 \
-                   --env PORT_8313=$PORT_8313 \
+                   --env PORT_1313=$PORT_1313 \
                    --interactive \
+                   --cpus=6 \
+                   --memory=8g \
                    --publish $PORT_8080:8080 \
                    --publish $PORT_8443:8443 \
-                   --publish $PORT_8313:1313 \
-                   --volume /home/developer/.vim \
+                   --publish $PORT_1313:1313 \
                    --volume /home/developer/go-workspace/bin \
                    --volume $WORKSPACE:/home/developer/workspace:rw \
-                   --volume $GO_WORKSPACE:/home/developer/go-workspace:rw \
-                   --volume $MOUNT:/home/developer \
+                   --volume $GO_WORKSPACE:/home/developer/go-workspace:cached \
+                   --volume $MOUNT/.bash_history:/home/developer/.bash_history:cached \
+                   --volume $MOUNT/.bash_profile:/home/developer/.bash_profile:cached \
+                   --volume $MOUNT/.boto:/home/developer/.boto:cached \
+                   --volume $MOUNT/.cache:/home/developer/.cache:cached \
+                   --volume $MOUNT/.config:/home/developer/.config:cached \
+                   --volume $MOUNT/.docker:/home/developer/.docker:cached \
+                   --volume $MOUNT/.gitconfig:/home/developer/.gitconfig:cached \
+                   --volume $MOUNT/.gnupg:/home/developer/.gnupg:cached \
+                   --volume $MOUNT/.groovy:/home/developer/.groovy:cached \
+                   --volume $MOUNT/.gsutil:/home/developer/.gsutil:cached \
+                   --volume $MOUNT/.helm:/home/developer/.helm:cached \
+                   --volume $MOUNT/.jx:/home/developer/.jx:cached \
+                   --volume $MOUNT/.m2:/home/developer/.m2:cached \
+                   --volume $MOUNT/.terraform:/home/developer/.terraform:cached \
+                   --volume $MOUNT/.terraform.d:/home/developer/.terraform.d:cached \
                    --volume $SSH:/home/developer/.ssh:ro \
                    --volume $DOCKER_SOCKET:/var/run/docker.sock \
                    ${kube} \
-                   gcr.io/jenkinsxio/dev-env:0.0.4 tmux -u
+                   gcr.io/jenkinsxio/dev-env-base:0.0.7-go-alpine tmux -u
 }
 
 setup_workspace
