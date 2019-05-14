@@ -4,6 +4,7 @@ PORTS="/tmp/.ports-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S')"
 touch "$PORTS"
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
 [ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
+declare -a env_files=(".bash_history" ".boto" ".gitconfig")
 source ./env/env.sh $ENV
 
 function setup_workspace(){
@@ -46,6 +47,16 @@ function setup_environment(){
     echo "renaming .bashrc to .bash_profile"
     mv ${MOUNT}/.bashrc ${MOUNT}/.bash_profile
   fi
+
+  echo "checking that the environment file have been created"
+  for file in "${env_files[@]}"
+  do
+    if [ ! -f ${MOUNT}/${file} ]
+    then
+      echo "${MOUNT}/${file} file doesn't exist, creating..."
+      touch ${MOUNT}/${file}
+    fi
+  done
 }
 
 function run(){
