@@ -95,7 +95,7 @@ function run(){
                    --volume $MOUNT/.m2:/home/developer/.m2:cached \
                    --volume $MOUNT/.terraform:/home/developer/.terraform:cached \
                    --volume $MOUNT/.terraform.d:/home/developer/.terraform.d:cached \
-                   --volume $SSH:/home/developer/.ssh:ro \
+                   --volume $SSH:/home/developer/.ssh:rw \
                    --volume $DOCKER_SOCKET:/var/run/docker.sock \
                    ${kube} \
                    gcr.io/jenkinsxio/dev-env-base:0.0.7-go-alpine tmux -u
