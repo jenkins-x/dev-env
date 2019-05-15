@@ -18,6 +18,7 @@ open -a XQuartz
 2. In the XQuartz preferences, go to the “Security” tab and make sure you’ve got “Allow connections from network clients” ticked.
 
 3. Then execute goland using the following docker run command:
+### MacOS
 ```
 $ docker run --rm \
              --detach \
@@ -30,5 +31,19 @@ $ docker run --rm \
              --name goland-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
              rycus86/goland:latest
 ```
+
+### Ubuntu
+```
+$ docker run --rm \
+             --detach \
+             --security-opt=seccomp:unconfined \
+             --volume /tmp/.X11-unix:/tmp/.X11-unix \
+             --volume ~/.GoLand:/home/developer/.GoLand \
+             --volume ~/.GoLand.java:/home/developer/.java \
+             --volume ~/Development/go-workspace:/home/developer/go \
+             --name goland-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
+             rycus86/goland:latest
+```
+
 ## support
 The execution of this GoLand container has only been verified on **MacOS**.
