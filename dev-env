@@ -98,7 +98,7 @@ function run(){
                    --volume $SSH:/home/developer/.ssh:rw \
                    --volume $DOCKER_SOCKET:/var/run/docker.sock \
                    ${kube} \
-                   gcr.io/jenkinsxio/dev-env-base:0.0.9-go-alpine tmux -u
+                   gcr.io/jenkinsxio/dev-env-base:0.0.10-go-alpine tmux -u
 }
 
 setup_workspace
