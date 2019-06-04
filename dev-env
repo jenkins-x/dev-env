@@ -71,6 +71,8 @@ function run(){
                    --env PORT_8080=$PORT_8080 \
                    --env PORT_8443=$PORT_8443 \
                    --env PORT_1313=$PORT_1313 \
+                   --env USER=$USER \
+                   --env HOSTNAME=$HOSTNAME \
                    --interactive \
                    --cpus=6 \
                    --memory=8g \
