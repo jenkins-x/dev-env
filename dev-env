@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DEV_ENV_BASE_VERSION=0.0.24
 PORTS="/tmp/.ports-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S')"
 touch "$PORTS"
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
@@ -100,7 +101,7 @@ function run(){
                    --volume $SSH:/home/developer/.ssh:rw \
                    --volume $DOCKER_SOCKET:/var/run/docker.sock \
                    ${kube} \
-                   gcr.io/jenkinsxio/dev-env-base:0.0.24-go-alpine tmux -u
+                   gcr.io/jenkinsxio/dev-env-base:$DEV_ENV_BASE_VERSION-go-alpine tmux -u
 }
 
 setup_workspace
