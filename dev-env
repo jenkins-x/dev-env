@@ -5,11 +5,11 @@ PORTS="/tmp/.ports-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S')"
 touch "$PORTS"
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
 [ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
-declare -a env_files=(".bash_history" ".boto" ".gitconfig")
 source ./env/env.sh $ENV
 # load custom env variables if file exists:
 [[ -f ./env/custom-env.sh ]] && echo "loading custom env variables" && source ./env/custom-env.sh
 declare -a mounted_directories=("$WORKSPACE" "$GO_WORKSPACE" "${MOUNT}/.cache" "${MOUNT}/.config" "${MOUNT}/.docker" "${MOUNT}/.gnupg" "${MOUNT}/.groovy" "${MOUNT}/.gsutil" "${MOUNT}/.helm" "${MOUNT}/.jx" "${MOUNT}/.m2" "${MOUNT}/.terraform" "${MOUNT}/.terraform.d")
+declare -a mounted_files=("${MOUNT}/.gitconfig" "${MOUNT}/.gitcookies" "${MOUNT}/bash_history" "${MOUNT}/.boto")
 
 function setup_workspace(){
   if [[ ! -d $GO_WORKSPACE ]]
@@ -53,12 +53,12 @@ function setup_environment(){
   fi
 
   echo "checking that the environment file have been created"
-  for file in "${env_files[@]}"
+  for file in "${mounted_files[@]}"
   do
-    if [ ! -f ${MOUNT}/${file} ]
+    if [ ! -f ${file} ]
     then
-      echo "${MOUNT}/${file} file doesn't exist, creating..."
-      touch ${MOUNT}/${file}
+      echo "${file} file doesn't exist, creating..."
+      touch ${file}
     fi
   done
 
