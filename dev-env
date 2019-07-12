@@ -7,6 +7,8 @@ SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
 [ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
 declare -a env_files=(".bash_history" ".boto" ".gitconfig")
 source ./env/env.sh $ENV
+# load custom env variables if file exists:
+[[ -f ./env/custom-env.sh ]] && echo "loading custom env variables" && source ./env/custom-env.sh
 declare -a mounted_directories=("$WORKSPACE" "$GO_WORKSPACE" "${MOUNT}/.cache" "${MOUNT}/.config" "${MOUNT}/.docker" "${MOUNT}/.gnupg" "${MOUNT}/.groovy" "${MOUNT}/.gsutil" "${MOUNT}/.helm" "${MOUNT}/.jx" "${MOUNT}/.m2" "${MOUNT}/.terraform" "${MOUNT}/.terraform.d")
 
 function setup_workspace(){
