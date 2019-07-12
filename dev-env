@@ -75,8 +75,6 @@ function run(){
                    --env USER=$USER \
                    --env HOSTNAME=$HOSTNAME \
                    --interactive \
-                   --cpus=6 \
-                   --memory=8g \
                    --publish $PORT_8080:8080 \
                    --publish $PORT_8443:8443 \
                    --publish $PORT_1313:1313 \
