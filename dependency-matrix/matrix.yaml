@@ -1,0 +1,7 @@
+dependencies:
+- host: github.com
+  owner: jenkins-x
+  repo: dev-env-base
+  url: https://github.com/jenkins-x/dev-env-base
+  version: 0.0.96
+  versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.96
