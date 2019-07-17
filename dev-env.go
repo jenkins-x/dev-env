@@ -14,7 +14,7 @@ func run() error {
 		"--interactive",
 		"--tty",
 		"--env", "TERM=screen-256color-bce",
-		"gcr.io/jenkinsxio/dev-env-base:0.0.13-go-alpine",
+		"gcr.io/jenkinsxio/dev-env-base:0.0.105-go-alpine",
 		"tmux",
 		"-u",
 	)
