@@ -111,6 +111,7 @@ function run(){
                    --volume $MOUNT/.gsutil:/home/developer/.gsutil:cached \
                    --volume $MOUNT/.helm:/home/developer/.helm:cached \
                    --volume $MOUNT/.jx:/home/developer/.jx:cached \
+                   --volume $MOUNT/.kube:/home/developer/.kube:cached \
                    --volume $MOUNT/.m2:/home/developer/.m2:cached \
                    --volume $MOUNT/.terraform:/home/developer/.terraform:cached \
                    --volume $MOUNT/.terraform.d:/home/developer/.terraform.d:cached \
