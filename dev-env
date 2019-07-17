@@ -41,12 +41,12 @@ function get_unused_port() {
 }
 
 function setup_environment(){
-  if [ ! -d ~/$MOUNT/.kube ]
+  if [ ! -d $MOUNT/.kube ]
   then
-    mkdir ~/$MOUNT/.kube
+    mkdir $MOUNT/.kube
     if [ -d ~/.kube ]
     then
-      cp -r ~/.kube ~/$MOUNT/.kube
+      cp -r ~/.kube $MOUNT/.kube
       if [ -f $MOUNT/.kube/config ]
       then
         sed -i "s:^\(.*cmd-path\: \).*$:\1$DEFAULT_GCLOUD_BIN:" $MOUNT/.kube/config
