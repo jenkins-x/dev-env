@@ -46,7 +46,7 @@ function setup_environment(){
     mkdir $MOUNT/.kube
     if [ -d ~/.kube ]
     then
-      cp -r ~/.kube $MOUNT/.kube
+      cp -r ~/.kube $MOUNT
       if [ -f $MOUNT/.kube/config ]
       then
         sed -i "s:^\(.*cmd-path\: \).*$:\1$DEFAULT_GCLOUD_BIN:" $MOUNT/.kube/config
