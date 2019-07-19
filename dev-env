@@ -44,6 +44,7 @@ function setup_environment(){
   if [ ! -d $MOUNT/.kube ]
   then
     mkdir $MOUNT/.kube
+    chmod 755 $MOUNT/.kube
     if [ -d ~/.kube ]
     then
       cp -r ~/.kube $MOUNT
