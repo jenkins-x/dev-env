@@ -1,0 +1,118 @@
+#!/bin/bash
+
+DEV_ENV_BASE_VERSION=0.0.165
+PORTS="/tmp/.ports-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S')"
+touch "$PORTS"
+SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
+DEFAULT_GCLOUD_BIN="\/usr\/local\/google-cloud-sdk\/bin\/gcloud"
+[ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
+source ./env/env.sh $ENV
+# load custom env variables if file exists:
+[[ -f ./env/custom-env.sh ]] && echo "loading custom env variables" && source ./env/custom-env.sh
+declare -a mounted_directories=("$WORKSPACE" "$GO_WORKSPACE" "${MOUNT}/.cache" "${MOUNT}/.config" "${MOUNT}/.docker" "${MOUNT}/.gnupg" "${MOUNT}/.groovy" "${MOUNT}/.gsutil" "${MOUNT}/.helm" "${MOUNT}/.jx" "${MOUNT}/.m2" "${MOUNT}/.terraform" "${MOUNT}/.terraform.d")
+declare -a mounted_files=("${MOUNT}/.gitconfig" "${MOUNT}/.gitcookies" "${MOUNT}/.zsh_history" "${MOUNT}/.boto")
+
+function setup_workspace(){
+  if [[ ! -d $GO_WORKSPACE ]]
+  then
+    mkdir -p $GO_WORKSPACE
+  fi
+}
+
+function setup_mount(){
+  if [[ ! -d $MOUNT ]]
+  then
+    mkdir -p $MOUNT
+  fi
+}
+
+function get_unused_port() {
+  for port in $(seq 8000 9000);
+  do
+    if [ $(grep -c "$port" "$PORTS") -eq 0 ]
+    then
+      nc -zv 127.0.0.1 $port > /dev/null 2>&1
+      [ $? -eq 1 ] \
+        && echo $port >> "$PORTS"\
+        && echo "$port" \
+        && break;
+    fi
+  done
+}
+
+function setup_environment(){
+  if [ ! -d $MOUNT/.kube ]
+  then
+    mkdir $MOUNT/.kube
+    chmod 755 $MOUNT/.kube
+    if [ -d ~/.kube ]
+    then
+      cp -r ~/.kube $MOUNT
+      if [ -f $MOUNT/.kube/config ]
+      then
+        sed -i "s:^\(.*cmd-path\: \).*$:\1$DEFAULT_GCLOUD_BIN:" $MOUNT/.kube/config
+      fi
+    fi
+  fi
+
+  if [[ -f $MOUNT/.bashrc ]]
+  then
+    echo ".bashrc file exists in ${MOUNT}"
+    echo "renaming .bashrc to .bash_profile"
+    mv ${MOUNT}/.bashrc ${MOUNT}/.bash_profile
+  fi
+
+  echo "checking that the environment file have been created"
+  for file in "${mounted_files[@]}"
+  do
+    if [ ! -f ${file} ]
+    then
+      echo "${file} file doesn't exist, creating..."
+      touch ${file}
+    fi
+  done
+
+  echo "initializing mounted directories"
+  for dir in "${mounted_directories[@]}"
+  do
+    mkdir -p ${dir}
+  done
+}
+
+function run(){
+  $SUDO docker run --name dev-env-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
+                   --rm \
+                   --tty \
+                   --env TERM=screen-256color-bce \
+                   --env USER=$USER \
+                   --env HOSTNAME=$HOSTNAME \
+                   --interactive \
+                   --volume /home/developer/go-workspace/bin \
+                   --volume $MOUNT/.config:/home/developer/.config:cached \
+                   --volume $MOUNT/.docker:/home/developer/.docker:cached \
+                   --volume $MOUNT/.gitconfig:/home/developer/.gitconfig:cached \
+                   --volume $MOUNT/.gnupg:/home/developer/.gnupg:cached \
+                   --volume $MOUNT/.groovy:/home/developer/.groovy:cached \
+                   --volume $MOUNT/.gsutil:/home/developer/.gsutil:cached \
+                   --volume $MOUNT/.helm:/home/developer/.helm:cached \
+                   --volume $MOUNT/.jx:/home/developer/.jx:cached \
+                   --volume $MOUNT/.kube:/home/developer/.kube:cached \
+                   --volume $MOUNT/.zsh_profile:/home/developer/.zsh_profile:cached \
+                   --volume $MOUNT/.zsh_history:/home/developer/.zsh_history:cached \
+                   --volume $MOUNT/.boto:/home/developer/.boto:cached \
+                   --volume $MOUNT/.cache:/home/developer/.cache:cached \
+                   --volume $MOUNT/.m2:/home/developer/.m2:cached \
+                   --volume $MOUNT/.terraform:/home/developer/.terraform:cached \
+                   --volume $MOUNT/.terraform.d:/home/developer/.terraform.d:cached \
+                   --volume $WORKSPACE:/home/developer/workspace:rw \
+                   --volume $GO_WORKSPACE:/home/developer/go-workspace:cached \
+                   ${kube} \
+                   --volume $SSH:/home/developer/.ssh:rw \
+                   --volume $DOCKER_SOCKET:/var/run/docker.sock \
+                    gcr.io/jenkinsxio/dev-env-base:$DEV_ENV_BASE_VERSION-go-alpine-zsh tmux -u
+}
+
+setup_workspace
+setup_mount
+setup_environment
+run
