@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 
@@ -14,7 +15,8 @@ func run() error {
 		"--interactive",
 		"--tty",
 		"--env", "TERM=screen-256color-bce",
-		"gcr.io/jenkinsxio/dev-env-base:0.0.105-go-alpine",
+		"--env", fmt.Sprintf("USER=%s", os.Getenv("USER")),
+		"gcr.io/jenkinsxio/dev-env-base:0.0.131-go-alpine",
 		"tmux",
 		"-u",
 	)
