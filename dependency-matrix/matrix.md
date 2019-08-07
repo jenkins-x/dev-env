@@ -2,5 +2,5 @@
 
 Dependency | Sources | Version | Mismatched versions
 ---------- | ------- | ------- | -------------------
-[jenkins-x/dev-env-base](https://github.com/jenkins-x/dev-env-base) |  | [0.0.184](https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.184) | 
-[jenkins-x/jx](https://github.com/jenkins-x/jx) | [github.com/jenkins-x/dev-env-base](https://github.com/jenkins-x/dev-env-base) | [2.0.567](https://github.com/jenkins-x/jx/releases/tag/v2.0.567) | 
+[jenkins-x/dev-env-base](https://github.com/jenkins-x/dev-env-base) |  | [0.0.185](https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.185) | 
+[jenkins-x/jx](https://github.com/jenkins-x/jx) | [github.com/jenkins-x/dev-env-base](https://github.com/jenkins-x/dev-env-base) | [2.0.568](https://github.com/jenkins-x/jx/releases/tag/v2.0.568) | 
