@@ -3,8 +3,8 @@ dependencies:
   owner: jenkins-x
   repo: dev-env-base
   url: https://github.com/jenkins-x/dev-env-base
-  version: 0.0.200
-  versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.200
+  version: 0.0.201
+  versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.201
 - host: github.com
   owner: jenkins-x
   repo: jx
@@ -14,10 +14,10 @@ dependencies:
       owner: jenkins-x
       repo: dev-env-base
       url: https://github.com/jenkins-x/dev-env-base
-      version: 0.0.200
-      versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.200
-    version: 2.0.583
-    versionURL: https://github.com/jenkins-x/jx/releases/tag/v2.0.583
+      version: 0.0.201
+      versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.201
+    version: 2.0.588
+    versionURL: https://github.com/jenkins-x/jx/releases/tag/v2.0.588
   url: https://github.com/jenkins-x/jx
-  version: 2.0.583
-  versionURL: https://github.com/jenkins-x/jx/releases/tag/v2.0.583
+  version: 2.0.588
+  versionURL: https://github.com/jenkins-x/jx/releases/tag/v2.0.588
