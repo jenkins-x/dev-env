@@ -3,8 +3,8 @@ dependencies:
   owner: jenkins-x
   repo: dev-env-base
   url: https://github.com/jenkins-x/dev-env-base.git
-  version: 0.0.300
-  versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.300
+  version: 0.0.301
+  versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.301
 - host: github.com
   owner: jenkins-x
   repo: jx
