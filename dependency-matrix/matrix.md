@@ -2,6 +2,6 @@
 
 Dependency | Sources | Version | Mismatched versions
 ---------- | ------- | ------- | -------------------
-[jenkins-x/dev-env-base](https://github.com/jenkins-x/dev-env-base.git) |  | [0.0.328](https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.328) | 
+[jenkins-x/dev-env-base](https://github.com/jenkins-x/dev-env-base.git) |  | [0.0.329](https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.329) | 
 [jenkins-x/jx](https://github.com/jenkins-x/jx) | [github.com/jenkins-x/dev-env-base](https://github.com/jenkins-x/dev-env-base.git) | [2.0.725](https://github.com/jenkins-x/jx/releases/tag/v2.0.725) | 
 [lachlanevenson/k8s-kubectl](https://github.com/lachlanevenson/k8s-kubectl) | [github.com/jenkins-x/dev-env-base](https://github.com/jenkins-x/dev-env-base.git) | [v1.15.3]() | 
