@@ -3,6 +3,7 @@
 DEV_ENV_BASE_VERSION=0.0.339
 PORTS="/tmp/.ports-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S')"
 touch "$PORTS"
+TMUX=true
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
 DEFAULT_GCLOUD_BIN="\/usr\/local\/google-cloud-sdk\/bin\/gcloud"
 [ ! -z "$CLOUD_SHELL" ] && ENV=cloud || ENV=mac
@@ -11,6 +12,11 @@ source ./env/env.sh $ENV
 [[ -f ./env/custom-env.sh ]] && echo "loading custom env variables" && source ./env/custom-env.sh
 declare -a mounted_directories=("$WORKSPACE" "$GO_WORKSPACE" "${MOUNT}/.cache" "${MOUNT}/.config" "${MOUNT}/.docker" "${MOUNT}/.gnupg" "${MOUNT}/.groovy" "${MOUNT}/.gsutil" "${MOUNT}/.helm" "${MOUNT}/.jx" "${MOUNT}/.m2" "${MOUNT}/.terraform" "${MOUNT}/.terraform.d")
 declare -a mounted_files=("${MOUNT}/.gitconfig" "${MOUNT}/.gitcookies" "${MOUNT}/.bash_history" "${MOUNT}/.boto")
+
+if [ -n "$1" ] && [[ "$1" == "no-tmux" ]]
+then
+  TMUX=false
+fi
 
 function setup_workspace(){
   if [[ ! -d $GO_WORKSPACE ]]
@@ -80,6 +86,14 @@ function setup_environment(){
 }
 
 function run(){
+
+  if $TMUX
+  then
+    CONTAINER_COMMAND="tmux -u"
+  else
+    CONTAINER_COMMAND="bash"
+  fi
+
   PORT_8080=$(get_unused_port)
   PORT_8443=$(get_unused_port)
   PORT_1313=$(get_unused_port)
@@ -119,7 +133,7 @@ function run(){
                    --volume $SSH:/home/developer/.ssh:rw \
                    --volume $DOCKER_SOCKET:/var/run/docker.sock \
                    ${kube} \
-                   gcr.io/jenkinsxio/dev-env-base:$DEV_ENV_BASE_VERSION-go-alpine tmux -u
+                   gcr.io/jenkinsxio/dev-env-base:$DEV_ENV_BASE_VERSION-go-alpine $CONTAINER_COMMAND
 }
 
 setup_workspace
