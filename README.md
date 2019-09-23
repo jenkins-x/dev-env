@@ -35,11 +35,18 @@ make build
 ```
 
 ## run
+### TMUX
 To execute the dev-env, perform the following:
 ```
 $ git clone https://github.com/jenkins-x/dev-env
 $ cd dev-env
 $ ./dev-env
+```
+### NO TMUX
+```
+$ git clone https://github.com/jenkins-x/dev-env
+$ cd dev-env
+$ ./dev-env no-tmux
 ```
 
 ## tmux
