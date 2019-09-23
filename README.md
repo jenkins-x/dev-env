@@ -28,18 +28,19 @@ The dev-env has only been verified on **MacOS**. It should _execute_ on other op
 ## prerequisites
 You'll need [Docker](https://www.docker.com/) to use the dev-env, see [Docker for MacOS](https://hub.docker.com/editions/community/docker-ce-desktop-mac).
 
-## build
-Use the following command to build the docker image locally:
-```
-make build
-```
-
 ## run
+### TMUX
 To execute the dev-env, perform the following:
 ```
 $ git clone https://github.com/jenkins-x/dev-env
 $ cd dev-env
 $ ./dev-env
+```
+### NO TMUX
+```
+$ git clone https://github.com/jenkins-x/dev-env
+$ cd dev-env
+$ ./dev-env no-tmux
 ```
 
 ## tmux
