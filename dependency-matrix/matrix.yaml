@@ -3,8 +3,8 @@ dependencies:
   owner: jenkins-x
   repo: dev-env-base
   url: https://github.com/jenkins-x/dev-env-base.git
-  version: 0.0.356
-  versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.356
+  version: 0.0.357
+  versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.357
 - host: github.com
   owner: jenkins-x
   repo: jx
@@ -30,10 +30,10 @@ dependencies:
       owner: jenkins-x
       repo: dev-env-base
       url: https://github.com/jenkins-x/dev-env-base.git
-      version: 0.0.210
-      versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.210
-    version: v1.15.3
+      version: 0.0.357
+      versionURL: https://github.com/jenkins-x/dev-env-base/releases/tag/v0.0.357
+    version: v1.16.0
     versionURL: ""
   url: https://github.com/lachlanevenson/k8s-kubectl
-  version: v1.15.3
+  version: v1.16.0
   versionURL: ""
