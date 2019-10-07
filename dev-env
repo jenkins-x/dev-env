@@ -11,7 +11,7 @@ source ./env/env.sh $ENV
 # load custom env variables if file exists:
 [[ -f ./env/custom-env.sh ]] && echo "loading custom env variables" && source ./env/custom-env.sh
 declare -a mounted_directories=("$WORKSPACE" "$GO_WORKSPACE" "${MOUNT}/.cache" "${MOUNT}/.config" "${MOUNT}/.docker" "${MOUNT}/.gnupg" "${MOUNT}/.groovy" "${MOUNT}/.gsutil" "${MOUNT}/.helm" "${MOUNT}/.jx" "${MOUNT}/.m2" "${MOUNT}/.terraform" "${MOUNT}/.terraform.d")
-declare -a mounted_files=("${MOUNT}/.gitconfig" "${MOUNT}/.gitcookies" "${MOUNT}/.bash_history" "${MOUNT}/.boto")
+declare -a mounted_files=("${MOUNT}/.gitcookies" "${MOUNT}/.bash_history" "${MOUNT}/.boto")
 
 if [ -n "$1" ] && [[ "$1" == "no-tmux" ]]
 then
@@ -66,6 +66,23 @@ function setup_environment(){
     echo ".bashrc file exists in ${MOUNT}"
     echo "renaming .bashrc to .bash_profile"
     mv ${MOUNT}/.bashrc ${MOUNT}/.bash_profile
+  fi
+
+  if [[ ! -f $MOUNT/.gitconfig ]]
+  then
+    echo ".gitconfig file does not exist in ${MOUNT}"
+    echo "copying .gitconfig to ${MOUNT}"
+    if [[ -f ~/.gitconfig ]]
+    then
+      cp ~/.gitconfig ${MOUNT}/.gitconfig
+    else
+      echo "No ~/.gitconfig file found"
+      echo "Please create the following file: ~/.gitconfig"
+      cat ./.gitconfig_example
+      exit 1
+    fi
+  else
+    echo "Using ${MOUNT}/.gitconfig"
   fi
 
   echo "checking that the environment file have been created"
