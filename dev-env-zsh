@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEV_ENV_BASE_VERSION=0.0.392
+DEV_ENV_BASE_VERSION=0.0.393
 PORTS="/tmp/.ports-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S')"
 touch "$PORTS"
 SCRIPT_HOME="$(dirname $BASH_SOURCE | sed 's:^\.$:'"$PWD"':g')"
