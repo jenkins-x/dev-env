@@ -32,20 +32,6 @@ function setup_mount(){
   fi
 }
 
-function get_unused_port() {
-  for port in $(seq 8000 9000);
-  do
-    if [ $(grep -c "$port" "$PORTS") -eq 0 ]
-    then
-      nc -zv 127.0.0.1 $port > /dev/null 2>&1
-      [ $? -eq 1 ] \
-        && echo $port >> "$PORTS"\
-        && echo "$port" \
-        && break;
-    fi
-  done
-}
-
 function setup_environment(){
   if [ ! -d $MOUNT/.kube ]
   then
@@ -111,23 +97,18 @@ function run(){
     CONTAINER_COMMAND="bash"
   fi
 
-  PORT_8080=$(get_unused_port)
-  PORT_8443=$(get_unused_port)
-  PORT_1313=$(get_unused_port)
   rm "$PORTS"
   $SUDO docker run --name dev-env-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
                    --rm \
                    --tty \
                    --env TERM=screen-256color-bce \
-                   --env PORT_8080=$PORT_8080 \
-                   --env PORT_8443=$PORT_8443 \
-                   --env PORT_1313=$PORT_1313 \
                    --env USER=$USER \
                    --env HOSTNAME=$HOSTNAME \
                    --interactive \
-                   --publish $PORT_8080:8080 \
-                   --publish $PORT_8443:8443 \
-                   --publish $PORT_1313:1313 \
+                   --publish 8080:8080 \
+                   --publish 8443:8443 \
+                   --publish 1313:1313 \
+                   --publish 2345:2345 \
                    --volume /home/developer/go-workspace/bin \
                    --volume $WORKSPACE:/home/developer/workspace:rw \
                    --volume $GO_WORKSPACE:/home/developer/go-workspace:cached \
