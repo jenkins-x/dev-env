@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEV_ENV_BASE_VERSION=0.0.547
+DEV_ENV_BASE_VERSION=0.0.548
 PORTS="/tmp/.ports-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S')"
 touch "$PORTS"
 TMUX=true
