@@ -101,7 +101,7 @@ function run(){
   $SUDO docker run --name dev-env-$(head -c 4 /dev/urandom | xxd -p)-$(date +'%Y%m%d-%H%M%S') \
                    --rm \
                    --tty \
-                   --env TERM=screen-256color-bce \
+                   --env TERM=screen-256color \
                    --env USER=$USER \
                    --env HOSTNAME=$HOSTNAME \
                    --interactive \
