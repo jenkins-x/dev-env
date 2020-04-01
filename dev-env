@@ -71,6 +71,19 @@ function setup_environment(){
     echo "Using ${MOUNT}/.gitconfig"
   fi
 
+  if [[ -f ~/.config/gh/config.yml ]]
+  then
+    if [[ ! -f ${MOUNT}/.config/gh/config.yml ]]
+    then
+      echo "~/.config/gh/config.yml file does not exist in ${MOUNT}"
+      echo "copying ~/.config/gh/config.yml to ${MOUNT}"
+      cp ~/.config/gh/config.yml ${MOUNT}/.config/gh/config.yml
+    fi
+  else
+    echo "GH cli is not authorized locally"
+    echo "Please authorise to enable it"
+  fi
+
   echo "checking that the environment file have been created"
   for file in "${mounted_files[@]}"
   do
